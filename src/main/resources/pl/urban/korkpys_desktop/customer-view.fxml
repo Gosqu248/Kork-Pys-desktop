@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox fx:id="customerPane" fx:controller="pl.urban.korkpys_desktop.controller.CustomerViewController" xmlns:fx="http://javafx.com/fxml" alignment="TOP_RIGHT">
+    <Button fx:id="returnButton" text="← Powrót" onAction="#handleReturnToMainView" style="-fx-font-size: 40px;"/>
+    <HBox spacing="10">
+        <VBox fx:id="customerDetailsVBox" minWidth="200">
+        </VBox>
+        <ListView fx:id="invoicesListView" minWidth="200">
+        </ListView>
+        <VBox>
+            <Button fx:id="addInvoiceButton" text="Dodaj Fakturę" onAction="#handleAddInvoice"/>
+        </VBox>
+    </HBox>
+</VBox>

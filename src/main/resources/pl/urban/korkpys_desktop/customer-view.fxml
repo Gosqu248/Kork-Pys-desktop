@@ -5,13 +5,12 @@
 
 <VBox fx:id="customerPane" fx:controller="pl.urban.korkpys_desktop.controller.CustomerViewController" xmlns:fx="http://javafx.com/fxml" alignment="TOP_RIGHT">
     <Button fx:id="returnButton" text="← Powrót" onAction="#handleReturnToMainView" style="-fx-font-size: 40px;"/>
-    <HBox spacing="10">
-        <VBox fx:id="customerDetailsVBox" minWidth="200">
-        </VBox>
-        <ListView fx:id="invoicesListView" minWidth="200">
-        </ListView>
-        <VBox>
-            <Button fx:id="addInvoiceButton" text="Dodaj Fakturę" onAction="#handleAddInvoice"/>
+    <HBox spacing="200">
+        <VBox fx:id="customerDetailsVBox" minWidth="200"/>
+        <ListView fx:id="invoicesListView" VBox.vgrow="ALWAYS" minWidth="1200" prefHeight="1600"/>
+        <VBox fx:id="buttonsVBox" spacing="300" alignment="CENTER">
+            <Button fx:id="addInvoiceButton" text="Dodaj Fakturę" onAction="#handleAddInvoice" style="-fx-font-size: 40px; -fx-background-color: #329fe1;"/>
+            <Button text="Delete Invoice" onAction="#handleDeleteInvoice" style="-fx-font-size: 40px; -fx-background-color: #e03e3e;"/>
         </VBox>
     </HBox>
 </VBox>

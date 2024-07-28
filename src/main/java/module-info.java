@@ -7,6 +7,7 @@ module pl.urban.korkpys_desktop {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires java.sql;
+    requires okhttp3;
 
     opens pl.urban.korkpys_desktop to javafx.fxml;
     exports pl.urban.korkpys_desktop;

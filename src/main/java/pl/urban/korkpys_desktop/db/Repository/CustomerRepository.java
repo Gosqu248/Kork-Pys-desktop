@@ -54,4 +54,11 @@ public class CustomerRepository {
             e.printStackTrace();
         }
     }
+
+    public Customer getCustomerById(Long id) {
+    return allCustomers.stream()
+            .filter(customer -> customer.getId().equals(id))
+            .findFirst()
+            .orElse(null);
+}
 }

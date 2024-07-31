@@ -3,8 +3,7 @@ package pl.urban.korkpys_desktop.db.model;
 public class Invoice {
 
     private Long id;
-
-    private byte[] image;
+    private String image; // Base64 encoded image data
     private String invoiceMonth;
     private String invoiceYear;
     private Long customerId;
@@ -17,11 +16,11 @@ public class Invoice {
         this.id = id;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

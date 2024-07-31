@@ -8,6 +8,10 @@ module pl.urban.korkpys_desktop {
     requires org.kordamp.ikonli.javafx;
     requires java.sql;
     requires okhttp3;
+    requires dotenv.java;
+    requires cloudinary.core;
+    requires org.apache.pdfbox;
+    requires java.desktop;
 
     opens pl.urban.korkpys_desktop to javafx.fxml;
     exports pl.urban.korkpys_desktop;

@@ -19,21 +19,19 @@ public class InvoiceRepository {
 
     public List<Invoice> getAllInvoicesByCustomerId(Long id) {
         allInvoices = new ArrayList<>();
-        // Fixed SQL query to correctly use the passed id parameter
         String sql = "SELECT * FROM kork.invoices WHERE customer_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id); // Set the id parameter
+            pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     Invoice invoice = new Invoice();
                     invoice.setId(rs.getLong("id"));
-                    invoice.setImage(rs.getBytes("image"));
+                    invoice.setImage(rs.getString("image"));
                     invoice.setInvoiceMonth(rs.getString("invoice_month"));
                     invoice.setInvoiceYear(rs.getString("invoice_year"));
                     invoice.setCustomerId(rs.getLong("customer_id"));
-                    allInvoices.addFirst(invoice);
+                    allInvoices.add(0, invoice);
                 }
             }
         } catch (Exception e) {
@@ -57,7 +55,7 @@ public class InvoiceRepository {
         String sql = "INSERT INTO kork.invoices (image, invoice_month, invoice_year, customer_id) VALUES (?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setBytes(1, invoice.getImage());
+            pstmt.setString(1, invoice.getImage());
             pstmt.setString(2, invoice.getInvoiceMonth());
             pstmt.setString(3, invoice.getInvoiceYear());
             pstmt.setLong(4, invoice.getCustomerId());
@@ -67,3 +65,4 @@ public class InvoiceRepository {
         }
     }
 }
+

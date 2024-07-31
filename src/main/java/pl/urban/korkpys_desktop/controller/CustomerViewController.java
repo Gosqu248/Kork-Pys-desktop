@@ -12,9 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import pl.urban.korkpys_desktop.db.Repository.InvoiceRepository;
@@ -43,28 +42,63 @@ public class CustomerViewController {
 
 
     public void initialize() {
-        invoicesListView.setCellFactory(listView -> new ListCell<Invoice>() {
+        invoicesListView.setCellFactory(new Callback<ListView<Invoice>, ListCell<Invoice>>() {
             @Override
-            protected void updateItem(Invoice invoice, boolean empty) {
-                super.updateItem(invoice, empty);
-                if (empty || invoice == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    HBox hbox = new HBox(10); // Increase spacing to add more space around the labels
-                    hbox.setPrefHeight(50); // Increase the height of the container
-                    hbox.setAlignment(Pos.CENTER_LEFT); // Ensure content is aligned to the left and centered vertically
+            public ListCell<Invoice> call(ListView<Invoice> listView) {
+                return new ListCell<Invoice>() {
+                    @Override
+                    protected void updateItem(Invoice invoice, boolean empty) {
+                        super.updateItem(invoice, empty);
+                        if (empty || invoice == null) {
+                            setText(null);
+                            setGraphic(null);
+                            setStyle(""); // Reset style for empty cells
+                        } else {
+                            HBox hbox = new HBox();
+                            hbox.setAlignment(Pos.CENTER); // Center the HBox content
 
-                    Label monthLabel = new Label(invoice.getInvoiceMonth());
-                    monthLabel.setPrefWidth(400); // Maintain the month label width
-                    monthLabel.setStyle("-fx-font-size: 35px; -fx-alignment: center-left;"); // Center text vertically and align left
+                            Text month = new Text(invoice.getInvoiceMonth());
+                            Text year = new Text(invoice.getInvoiceYear());
+                            Text imageUrl = new Text(invoice.getImage());
 
-                    Label yearLabel = new Label(invoice.getInvoiceYear());
-                    yearLabel.setStyle("-fx-font-size: 35px; -fx-alignment: center-left;"); // Center text vertically and align left
+                            month.setStyle("-fx-font-size: 27px;");
+                            year.setStyle("-fx-font-size: 25px;");
+                            imageUrl.setStyle("-fx-font-size: 20px;");
 
-                    hbox.getChildren().addAll(monthLabel, yearLabel);
-                    setGraphic(hbox); // Use HBox as the graphic for the cell
-                }
+                            StackPane monthPane = new StackPane(month);
+                            StackPane yearPane = new StackPane(year);
+                            StackPane imageUrlPane = new StackPane(imageUrl);
+
+                            monthPane.setAlignment(Pos.CENTER); // Center the text within the StackPane
+                            yearPane.setAlignment(Pos.CENTER); // Center the text within the StackPane
+                            imageUrlPane.setAlignment(Pos.CENTER); // Center the text within the StackPane
+
+                            // Set HBox children widths to percentages
+                            HBox.setHgrow(month, Priority.ALWAYS);
+                            HBox.setHgrow(year, Priority.ALWAYS);
+                            HBox.setHgrow(imageUrl, Priority.ALWAYS);
+
+                            month.wrappingWidthProperty().bind(invoicesListView.widthProperty().multiply(0.3));
+                            year.wrappingWidthProperty().bind(invoicesListView.widthProperty().multiply(0.3));
+                            imageUrl.wrappingWidthProperty().bind(invoicesListView.widthProperty().multiply(0.3));
+
+                            hbox.getChildren().addAll(monthPane, yearPane, imageUrlPane);
+                            hbox.setSpacing(10);
+
+                            // Increase the height of the container for each invoice
+                            hbox.setMinHeight(100); // Adjust as needed
+
+                            setGraphic(hbox);
+
+                            // Change background color and text color for selected cells
+                            if (isSelected()) {
+                                setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
+                            } else {
+                                setStyle(""); // Reset style for non-selected cells
+                            }
+                        }
+                    }
+                };
             }
         });
     }
@@ -87,7 +121,9 @@ public class CustomerViewController {
             spacer1.setMinHeight(20); // Zwiększenie odstępu między 'dane' a 'nameLabel'
 
             Label nameLabel = new Label(customer.getName());
-            nameLabel.setStyle("-fx-font-size: 25px;");
+            nameLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
+            nameLabel.setWrapText(true); // Enable text wrapping
+            nameLabel.setMaxWidth(380);
 
             Pane spacer2 = new Pane();
             spacer2.setMinHeight(10); // Zwiększenie odstępu między 'nameLabel' a 'addressLabel'

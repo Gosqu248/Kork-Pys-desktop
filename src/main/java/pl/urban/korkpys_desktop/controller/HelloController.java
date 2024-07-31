@@ -70,8 +70,11 @@ public class HelloController {
                         if (empty || customer == null) {
                             setText(null);
                             setGraphic(null);
+                            setStyle(""); // Reset style for empty cells
                         } else {
                             HBox hbox = new HBox();
+                            hbox.setAlignment(Pos.CENTER); // Center the HBox content
+
                             Text name = new Text(customer.getName());
                             Text address = new Text(customer.getStreet() + " " + customer.getBuildingNumber());
                             Text mail = new Text(customer.getMail());
@@ -84,9 +87,9 @@ public class HelloController {
                             StackPane addressPane = new StackPane(address);
                             StackPane mailPane = new StackPane(mail);
 
-                            namePane.setAlignment(Pos.CENTER);
-                            addressPane.setAlignment(Pos.CENTER);
-                            mailPane.setAlignment(Pos.CENTER);
+                            namePane.setAlignment(Pos.CENTER); // Center the text within the StackPane
+                            addressPane.setAlignment(Pos.CENTER); // Center the text within the StackPane
+                            mailPane.setAlignment(Pos.CENTER); // Center the text within the StackPane
 
                             // Set HBox children widths to percentages
                             HBox.setHgrow(name, Priority.ALWAYS);
@@ -97,14 +100,20 @@ public class HelloController {
                             address.wrappingWidthProperty().bind(searchResultsList.widthProperty().multiply(0.25));
                             mail.wrappingWidthProperty().bind(searchResultsList.widthProperty().multiply(0.2));
 
-                            hbox.getChildren().addAll(name, address, mail);
+                            hbox.getChildren().addAll(namePane, addressPane, mailPane);
                             hbox.setSpacing(10);
-
 
                             // Increase the height of the container for each customer
                             hbox.setMinHeight(150); // Assuming the base height is 60, adjust as needed
 
                             setGraphic(hbox);
+
+                            // Change background color and text color for selected cells
+                            if (isSelected()) {
+                                setStyle("-fx-background-color: lightgreen; -fx-text-fill: black;");
+                            } else {
+                                setStyle(""); // Reset style for non-selected cells
+                            }
                         }
                     }
                 };
